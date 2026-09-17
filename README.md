@@ -1,6 +1,6 @@
 # Maximum Likelihood vs Quasi-Maximum Likelihood in Time Series
 
-Simulation-based study comparing Maximum Likelihood (ML) and Quasi-Maximum Likelihood (QML) estimation in an AR(1) process with time-varying volatility.
+Simulation-based study comparing Maximum Likelihood (ML) and Quasi-Maximum Likelihood (QML) estimation in an AR(1) process with time varying volatility.
 
 ## Project Overview
 
@@ -11,7 +11,7 @@ The analysis is conducted in a simulation framework, allowing the true data-gene
 The main objective is to compare ML and QML in terms of:
 
 - parameter recovery;
-- finite-sample efficiency;
+- finite sample efficiency;
 - statistical inference;
 - robustness to model misspecification;
 - asymptotic behavior.
@@ -49,7 +49,7 @@ A total of 800 observations are simulated and the first 50 are discarded as burn
 
 ## Maximum Likelihood
 
-Under correct specification, the conditional log-likelihood explicitly incorporates the time-varying volatility process.
+Under correct specification, the conditional log-likelihood explicitly incorporates the time varying volatility process.
 
 The parameters
 
@@ -125,7 +125,7 @@ The differences become substantially smaller as sample size increases.
 ## Main Findings
 
 - Correctly specified ML provides more efficient parameter estimates.
-- Model misspecification increases standard errors and reduces finite-sample efficiency.
+- Model misspecification increases standard errors and reduces finite sample efficiency.
 - QML remains consistent for parameters belonging to the correctly specified conditional mean.
 - Robust covariance estimation is necessary for valid QML inference under misspecification.
 - The finite-sample gap between ML and QML becomes much smaller as the sample size increases.
@@ -149,7 +149,7 @@ advanced-time-series-ml-qml/
 ### Main files
 
 - `main.m` — complete workflow including simulation, ML estimation, QML estimation, inference and Monte Carlo analysis
-- `simulateSV.m` — simulation of the AR(1) process with time-varying volatility
+- `simulateSV.m` — simulation of the AR(1) process with time varying volatility
 - `LLcontributions.m` — conditional ML log-likelihood contributions
 - `LLtotal.m` — total conditional ML log-likelihood
 - `LLtotal_NEG.m` — negative ML log-likelihood used for numerical minimization
@@ -169,4 +169,4 @@ The external CML routines used for numerical estimation are not included in this
 
 This is a simulation study rather than an empirical application to observed financial data.
 
-The comparison is therefore designed to study estimator behavior under controlled conditions rather than to estimate a real-world economic relationship.
+The comparison is therefore designed to study estimator behavior under controlled conditions rather than to estimate a real world economic relationship.
