@@ -144,7 +144,7 @@ advanced-time-series-ml-qml/
 
 - MATLAB
 - Statistics and Machine Learning Toolbox
-- course-provided CML estimation routines
+- course provided CML estimation routines
 
 The external CML routines used for numerical estimation are not included in this repository.
 
