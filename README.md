@@ -1,6 +1,6 @@
 # Maximum Likelihood vs Quasi-Maximum Likelihood in Time Series
 
-Simulation-based study comparing Maximum Likelihood (ML) and Quasi-Maximum Likelihood (QML) estimation in an AR(1) process with time varying volatility.
+Simulation based study comparing Maximum Likelihood (ML) and Quasi-Maximum Likelihood (QML) estimation in an AR(1) process with time varying volatility.
 
 ## Project Overview
 
