@@ -20,30 +20,23 @@ The main objective is to compare ML and QML in terms of:
 
 The simulated process follows an AR(1) model with time-varying volatility:
 
-\[
-y_t = c + \phi y_{t-1} + \varepsilon_t
-\]
+`y_t = c + phi * y_(t-1) + epsilon_t`
 
 with
 
-\[
-\varepsilon_t = \sigma_t z_t, \qquad z_t \sim N(0,1)
-\]
+`epsilon_t = sigma_t * z_t`, where `z_t ~ N(0,1)`
 
 and volatility dynamics:
 
-\[
-\sigma_t =
-\sqrt{\kappa + \alpha \varepsilon_{t-1}^2 + \beta \sigma_{t-1}^2}.
-\]
+`sigma_t = sqrt(kappa + alpha * epsilon_(t-1)^2 + beta * sigma_(t-1)^2)`
 
 The baseline parameters are:
 
-- \(c = 4\)
-- \(\phi = 0.9\)
-- \(\kappa = 0.75\)
-- \(\alpha = 0.3\)
-- \(\beta = 0.6\)
+- `c = 4`
+- `phi = 0.9`
+- `kappa = 0.75`
+- `alpha = 0.3`
+- `beta = 0.6`
 
 A total of 800 observations are simulated and the first 50 are discarded as burn-in, leaving a sample of 750 observations.
 
@@ -53,9 +46,7 @@ Under correct specification, the conditional log-likelihood explicitly incorpora
 
 The parameters
 
-\[
-(c,\phi,\kappa,\alpha,\beta)
-\]
+`(c, phi, kappa, alpha, beta)`
 
 are estimated numerically by Maximum Likelihood.
 
@@ -63,8 +54,8 @@ Inference is based on the Hessian-based covariance matrix.
 
 The exercise is performed for:
 
-- a finite sample of \(T=750\);
-- a large sample of \(T=49,950\).
+- a finite sample of `T=750`;
+- a large sample of `T=49,950`.
 
 The large-sample experiment illustrates convergence of the estimates toward the true parameter values and decreasing standard errors.
 
@@ -72,21 +63,15 @@ The large-sample experiment illustrates convergence of the estimates toward the 
 
 The same simulated data are then intentionally estimated using a misspecified homoskedastic AR(1) model:
 
-\[
-y_t = c + \phi y_{t-1} + \varepsilon_t,
-\qquad
-\varepsilon_t \sim N(0,\sigma^2).
-\]
+`y_t = c + phi * y_(t-1) + epsilon_t`, with `epsilon_t ~ N(0, sigma^2)`
 
 The volatility dynamics are therefore ignored.
 
 Although the conditional variance is misspecified, the conditional mean remains correctly specified:
 
-\[
-E[y_t \mid y_{t-1}] = c + \phi y_{t-1}.
-\]
+`E[y_t | y_(t-1)] = c + phi * y_(t-1)`
 
-For this reason, QML can still consistently recover the mean parameters \(c\) and \(\phi\).
+For this reason, QML can still consistently recover the mean parameters `c` and `phi`.
 
 Because the likelihood is misspecified, inference is performed using a robust sandwich covariance matrix rather than the standard Hessian-based ML covariance matrix.
 
@@ -94,9 +79,7 @@ Because the likelihood is misspecified, inference is performed using a robust sa
 
 For both ML and QML, the project tests:
 
-\[
-H_0: \phi = 0.8
-\]
+`H0: phi = 0.8`
 
 at the 5% significance level.
 
@@ -115,7 +98,7 @@ For every simulated dataset:
 
 1. the correctly specified model is estimated by ML;
 2. the misspecified homoskedastic AR(1) model is estimated by QML;
-3. estimates of \(c\) and \(\phi\) are stored;
+3. estimates of `c` and `phi` are stored;
 4. kernel density estimates are used to compare their sampling distributions.
 
 The ML distributions are more concentrated around the true parameter values, while the QML distributions are more dispersed in finite samples.
