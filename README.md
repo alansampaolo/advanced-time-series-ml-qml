@@ -8,13 +8,9 @@ This project investigates how Maximum Likelihood and Quasi-Maximum Likelihood es
 
 The analysis is conducted in a simulation framework, allowing the true data-generating process and parameter values to be known.
 
-The main objective is to compare ML and QML in terms of:
+The main objective is to study how Maximum Likelihood under correct model specification compares with Quasi-Maximum Likelihood under deliberate variance misspecification.
 
-- parameter recovery;
-- finite sample efficiency;
-- statistical inference;
-- robustness to model misspecification;
-- asymptotic behavior.
+The broader goal is to quantify the consequences of model misspecification in terms of parameter recovery, estimator dispersion and statistical inference, while examining whether these differences become smaller as the sample size increases.
 
 ## Data-Generating Process
 
@@ -112,7 +108,8 @@ The differences become substantially smaller as sample size increases.
 - QML remains consistent for parameters belonging to the correctly specified conditional mean.
 - Robust covariance estimation is necessary for valid QML inference under misspecification.
 - The finite-sample gap between ML and QML becomes much smaller as the sample size increases.
-
+- Overall, the experiment illustrates the statistical cost of variance misspecification: QML can remain consistent for correctly specified mean parameters, but at the price of lower finite-sample efficiency.
+  
 ## Repository Structure
 
 ```text
