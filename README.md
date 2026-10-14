@@ -1,152 +1,36 @@
-# Maximum Likelihood vs Quasi-Maximum Likelihood in Time Series
+# ML vs QML Estimation under Variance Misspecification
 
-Simulation based study comparing Maximum Likelihood (ML) and Quasi-Maximum Likelihood (QML) estimation in an AR(1) process with time varying volatility.
+Course project, Advanced Time Series Analysis — University of Tübingen (2025) · MATLAB
 
-## Project Overview
+## Objective
 
-This project investigates how Maximum Likelihood and Quasi-Maximum Likelihood estimators behave when a time-series model is correctly specified versus deliberately misspecified.
+The aim was to **study how Maximum Likelihood (ML) behaves under correct specification compared with Quasi-Maximum Likelihood (QML) under misspecification, and how this affects estimator accuracy**.
 
-The analysis is conducted in a simulation framework, allowing the true data-generating process and parameter values to be known.
+## Setup
 
-The main objective is to study how Maximum Likelihood under correct model specification compares with Quasi-Maximum Likelihood under deliberate variance misspecification.
+| | |
+|---|---|
+| **Data-generating process** | AR(1) with GARCH-type volatility: `y_t = c + φ·y_(t−1) + ε_t`, `ε_t = σ_t·z_t`, `σ_t² = κ + α·ε_(t−1)² + β·σ_(t−1)²` (c = 4, φ = 0.9, κ = 0.75, α = 0.3, β = 0.6) |
+| **ML** | Correctly specified model, Hessian-based standard errors |
+| **QML** | Homoskedastic AR(1) that ignores the volatility dynamics (the conditional mean is still correct), robust sandwich standard errors |
+| **Samples** | T = 750 and T = 49,950, plus a Monte Carlo experiment with 500 replications at T = 750 |
 
-The broader goal is to quantify the consequences of model misspecification in terms of parameter recovery, estimator dispersion and statistical inference, while examining whether these differences become smaller as the sample size increases.
+## Key results
 
-## Data-Generating Process
+- **Both methods recover the mean parameters:** at T = 750, φ̂ = 0.867 (ML) and 0.872 (QML) vs. a true value of 0.9, because the conditional mean is correctly specified.
+- **Misspecification costs efficiency:** the QML standard error of φ̂ is about three times larger (0.050 vs. 0.017).
+- **This changes inference:** H0: φ = 0.8 is rejected by ML (t ≈ 3.86) but not by QML (t ≈ 1.45), i.e. a higher Type II error.
+- **The gap closes with sample size:** at T = 49,950 both estimates of φ are ≈ 0.90, with standard errors of 0.002–0.003.
+- **Monte Carlo:** ML sampling distributions are tightly concentrated around the true values, while QML ones are more dispersed and slightly shifted.
 
-The simulated process follows an AR(1) model with time-varying volatility:
+## Repository
 
-`y_t = c + phi * y_(t-1) + epsilon_t`
+- `main.m` — full workflow (simulation, ML, QML, inference, Monte Carlo)
+- `simulateSV.m` — simulation of the AR(1) process
+- `LLcontributions.m`, `LLtotal.m`, `LLtotal_NEG.m` — ML log-likelihood
+- `LL_QMLcontributions.m`, `LL_QMLtotal_NEG.m` — QML log-likelihood
+- `advanced_time_series_report.pdf` — full report
 
-with
+The optimisation and covariance routines (CML toolbox) were provided by the course and are not included.
 
-`epsilon_t = sigma_t * z_t`, where `z_t ~ N(0,1)`
-
-and volatility dynamics:
-
-`sigma_t = sqrt(kappa + alpha * epsilon_(t-1)^2 + beta * sigma_(t-1)^2)`
-
-The baseline parameters are:
-
-- `c = 4`
-- `phi = 0.9`
-- `kappa = 0.75`
-- `alpha = 0.3`
-- `beta = 0.6`
-
-A total of 800 observations are simulated and the first 50 are discarded as burn-in, leaving a sample of 750 observations.
-
-## Maximum Likelihood
-
-Under correct specification, the conditional log-likelihood explicitly incorporates the time varying volatility process.
-
-The parameters
-
-`(c, phi, kappa, alpha, beta)`
-
-are estimated numerically by Maximum Likelihood.
-
-Inference is based on the Hessian-based covariance matrix.
-
-The exercise is performed for:
-
-- a finite sample of `T=750`;
-- a large sample of `T=49,950`.
-
-The large-sample experiment illustrates convergence of the estimates toward the true parameter values and decreasing standard errors.
-
-## Quasi-Maximum Likelihood
-
-The same simulated data are then intentionally estimated using a misspecified homoskedastic AR(1) model:
-
-`y_t = c + phi * y_(t-1) + epsilon_t`, with `epsilon_t ~ N(0, sigma^2)`
-
-The volatility dynamics are therefore ignored.
-
-Although the conditional variance is misspecified, the conditional mean remains correctly specified:
-
-`E[y_t | y_(t-1)] = c + phi * y_(t-1)`
-
-For this reason, QML can still consistently recover the mean parameters `c` and `phi`.
-
-Because the likelihood is misspecified, inference is performed using a robust sandwich covariance matrix rather than the standard Hessian-based ML covariance matrix.
-
-## Hypothesis Testing
-
-For both ML and QML, the project tests:
-
-`H0: phi = 0.8`
-
-at the 5% significance level.
-
-In the finite sample:
-
-- ML rejects the null hypothesis;
-- QML does not reject the null hypothesis.
-
-This difference reflects the larger standard errors produced under model misspecification and the corresponding loss of estimation efficiency.
-
-## Monte Carlo Experiment
-
-A Monte Carlo experiment with 500 independently simulated samples is used to compare the sampling distributions of the ML and QML estimators.
-
-For every simulated dataset:
-
-1. the correctly specified model is estimated by ML;
-2. the misspecified homoskedastic AR(1) model is estimated by QML;
-3. estimates of `c` and `phi` are stored;
-4. kernel density estimates are used to compare their sampling distributions.
-
-The ML distributions are more concentrated around the true parameter values, while the QML distributions are more dispersed in finite samples.
-
-The differences become substantially smaller as sample size increases.
-
-## Main Findings
-
-- Correctly specified ML provides more efficient parameter estimates.
-- Model misspecification increases standard errors and reduces finite sample efficiency.
-- QML remains consistent for parameters belonging to the correctly specified conditional mean.
-- Robust covariance estimation is necessary for valid QML inference under misspecification.
-- The finite-sample gap between ML and QML becomes much smaller as the sample size increases.
-- Overall, the experiment illustrates the statistical cost of variance misspecification: QML can remain consistent for correctly specified mean parameters, but at the price of lower finite-sample efficiency.
-  
-## Repository Structure
-
-```text
-advanced-time-series-ml-qml/
-│
-├── README.md
-├── main.m
-├── simulateSV.m
-├── LLcontributions.m
-├── LLtotal.m
-├── LLtotal_NEG.m
-├── LL_QMLcontributions.m
-├── LL_QMLtotal_NEG.m
-└── advanced_time_series_report.pdf
-```
-
-### Main files
-
-- `main.m` — complete workflow including simulation, ML estimation, QML estimation, inference and Monte Carlo analysis
-- `simulateSV.m` — simulation of the AR(1) process with time varying volatility
-- `LLcontributions.m` — conditional ML log-likelihood contributions
-- `LLtotal.m` — total conditional ML log-likelihood
-- `LLtotal_NEG.m` — negative ML log-likelihood used for numerical minimization
-- `LL_QMLcontributions.m` — QML contributions under the misspecified homoskedastic model
-- `LL_QMLtotal_NEG.m` — negative QML objective
-- `advanced_time_series_report.pdf` — full project report and interpretation
-
-## Dependencies
-
-- MATLAB
-- Statistics and Machine Learning Toolbox
-- course provided CML estimation routines
-
-The external CML routines used for numerical estimation are not included in this repository.
-
-## Limitations
-
-This is a simulation study rather than an empirical application to observed financial data.
-
-The comparison is therefore designed to study estimator behavior under controlled conditions rather than to estimate a real world economic relationship.
+**Tools:** MATLAB · Statistics and Machine Learning Toolbox
