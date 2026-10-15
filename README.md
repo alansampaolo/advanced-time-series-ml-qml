@@ -25,12 +25,12 @@ The aim was to **study how Maximum Likelihood (ML) behaves under correct specifi
 
 ## Repository
 
-- `main.m` — full workflow (simulation, ML, QML, inference, Monte Carlo)
-- `simulateSV.m` — simulation of the AR(1) process
-- `LLcontributions.m`, `LLtotal.m`, `LLtotal_NEG.m` — ML log-likelihood
-- `LL_QMLcontributions.m`, `LL_QMLtotal_NEG.m` — QML log-likelihood
+- `code/main.m` — full workflow (simulation, ML, QML, inference, Monte Carlo)
+- `code/simulateSV.m` — simulation of the AR(1) process with GARCH-type volatility
+- `code/LLcontributions.m`, `code/LLtotal.m`, `code/LLtotal_NEG.m` — ML log-likelihood
+- `code/LL_QMLcontributions.m`, `code/LL_QMLtotal_NEG.m` — QML log-likelihood
 - `advanced_time_series_report.pdf` — full report
 
-The optimisation and covariance routines (CML toolbox) were provided by the course and are not included.
+The optimisation and covariance routines (CML toolbox) were provided by the course and are not included, so `main.m` requires them to run.
 
 **Tools:** MATLAB · Statistics and Machine Learning Toolbox
